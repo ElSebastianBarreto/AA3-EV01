@@ -22,6 +22,7 @@ public class SecurityConfig {
 				.requestMatchers("/contact").permitAll()
 				.requestMatchers("/store").permitAll()
 				.requestMatchers("/login").permitAll()
+				.requestMatchers("/edit").permitAll()
 				.requestMatchers("/logout").permitAll()
 				.anyRequest().authenticated()
 				)
