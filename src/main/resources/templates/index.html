@@ -53,10 +53,50 @@
   </div>
 </nav>
     
-      <div class="container py-5" sec:authorize="isAuthenticated()">
-      
-      <h1 class="text-center">Bienvenido a crud de clientes</h1>
+      <div class="container" sec:authorize="isAuthenticated()">
           
+          <h1 class="text-center my-4">Clientes</h1>
+         
+          
+          <table class="table">
+          
+          <thead>
+          <tr>
+          <th>Cedula</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Correo</th>
+          <th>Clave</th>
+          <th>Telefono</th>
+          
+          
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="clientes: ${cliente}">
+          <td th:text="${clientes.cedula}"></td>
+          <td th:text="${clientes.nombre}"></td>
+          <td th:text="${clientes.apellido}"></td>
+          <td th:text="${clientes.edad}"></td>
+          <td th:text="${clientes.correo}"></td>
+          <td th:text="${clientes.clave}"></td>
+          <td th:text="${clientes.telefono}"></td>
+         
+          <td style="whitespace:nowrap">
+          <a class="btn btn-primary btn-sm"
+          th:href="@{/clientes/edit(cedula=${clientes.cedula})}">Edit</a>
+         
+          
+          <a class="btn btn-danger btn-sm"
+          th:href="@{/clientes/delete(cedula=${clientes.cedula})}"
+          onclick="return confirm('Are you sure')">Delete
+          </td>
+          
+          </tr>
+          </tbody>
+          
+          </table>
       </div>
       
       
