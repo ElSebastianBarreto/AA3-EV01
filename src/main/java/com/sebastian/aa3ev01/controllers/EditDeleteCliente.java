@@ -2,8 +2,12 @@ package com.sebastian.aa3ev01.controllers;
 
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.boostmytool.beststore.models.Products;
 import com.sebastian.aa3ev01.models.Cliente;
 import com.sebastian.aa3ev01.models.ClienteDto;
 import com.sebastian.aa3ev01.repositories.ClienteRepo;
@@ -36,7 +41,7 @@ public class EditDeleteCliente {
 		clienteDto.setApellido(cliente.getApellido());
 		clienteDto.setEdad(cliente.getEdad());
 		clienteDto.setCorreo(cliente.getCorreo());
-		clienteDto.setClave(cliente.getClave());
+		//clienteDto.setClave(cliente.getClave());
 		clienteDto.setTelefono(cliente.getTelefono());
 		
 		model.addAttribute("clienteDto", clienteDto);
@@ -81,7 +86,7 @@ public class EditDeleteCliente {
 			
 			
 		
-		
+			var bCryptEncoder = new BCryptPasswordEncoder();
 			
 			
 			cliente.setCedula(clienteDto.getCedula());
@@ -91,7 +96,7 @@ public class EditDeleteCliente {
 			cliente.setApellido(clienteDto.getApellido());
 			cliente.setEdad(clienteDto.getEdad());
 			cliente.setCorreo(clienteDto.getCorreo());
-			cliente.setClave(clienteDto.getClave());
+			cliente.setClave(bCryptEncoder.encode(clienteDto.getClave()));
 			cliente.setTelefono(clienteDto.getTelefono());
 
 			repo.save(cliente);
@@ -106,6 +111,27 @@ public class EditDeleteCliente {
 		}
 		return "redirect:/";
 	}
+	
+	
+	
+	@GetMapping("/delete")
+	public String deleteProduct( @RequestParam int cedula) { 
+		
+		try {
+			
+			Cliente cliente = repo.findById(cedula).get();
+		
+			
+			repo.delete(cliente);
+		}catch(Exception ex){
+			
+			System.out.println("Exception: "+ex.getMessage());
+			
+			
+		}
+		
+		
+		return "redirect:/";}
 	
 	
 	

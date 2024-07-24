@@ -1,9 +1,11 @@
 package com.sebastian.aa3ev01.models;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class ClienteDto {
@@ -19,9 +21,11 @@ private String apellido;
 @Min(value = 5, message = "La edad mínima es 5")
 @Max(value = 120, message = "La edad máxima es 120")
 private int edad;
-
+@Email(message = "Este no es una direccion de correo valida")
 private String correo;
 private String clave;
+
+@Pattern(regexp = "^[0-9]+$", message = "El teléfono solo puede contener números")
 private String telefono;
 public int getCedula() {
 	return cedula;
