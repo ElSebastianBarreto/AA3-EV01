@@ -1,16 +1,33 @@
 package com.sebastian.aa3ev01.models;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class RegistroDto {
+	
+	@NotNull(message = "Se requiere la cedula")
+	
 	private int cedula;
+	@NotEmpty(message="Se requiere el nombre")
 	private String nombre;
+	@NotEmpty(message="Se requiere el apellido")
 	private String apellido;
+	@Min(value = 5, message = "La edad mínima es 5")
+	@Max(value = 120, message = "La edad máxima es 120")
 	private int edad;
-	@NotEmpty
+	@NotEmpty(message="Se requiere un correo")
+	@Email(message="email no valido")
 	private String correo;
+	@NotEmpty(message="Se requiere una clave")
 	private String clave;
 	private String confirmClave;
+	@NotNull(message = "Se requiere la cedula")
+
+@Pattern(regexp = "^[0-9]+$", message = "El teléfono solo puede contener números")
 	private String telefono;
 	public int getCedula() {
 		return cedula;

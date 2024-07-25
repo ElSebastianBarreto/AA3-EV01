@@ -4,15 +4,19 @@ package com.sebastian.aa3ev01.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name= "cliente")
 public class Cliente {
 	@Id
 	private int cedula;
+	@NotNull(message = "Se requiere la cedula")
 	private String nombre;
 	private String apellido;
 	private int edad;
+	@Email(message="email no valido")
 	private String correo;
 	private String clave;
 	private String telefono;

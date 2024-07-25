@@ -14,64 +14,63 @@ import com.sebastian.aa3ev01.models.Cliente;
 import com.sebastian.aa3ev01.models.RegistroDto;
 import com.sebastian.aa3ev01.repositories.ClientesRepository;
 
-
 import jakarta.validation.Valid;
-
-
 
 @Controller
 public class AccountController {
 
-@Autowired ClientesRepository repo;
-	@GetMapping("/register")
-	public String register(Model model) {
-	    RegistroDto registerDto = new RegistroDto();
-	    model.addAttribute("registerDto", registerDto);
-	    model.addAttribute("success", false);
-	    return "register";
-	}
-	
-	@PostMapping("/register")
-	public String register(Model model, 
-			@Valid @ModelAttribute RegistroDto registerDto,
-			BindingResult result) {
-		if(!registerDto.getClave().equals(registerDto.getConfirmClave())) {
-			
-			result.addError(
-					new FieldError("registerDto", "confirmClave", "no coinciden las claves")
-					);
-		}
-		
-		
-		Cliente appUser = repo.findByCorreo(registerDto.getCorreo());
-		if(appUser != null) {
-			
-			result.addError(new FieldError("registerDto", "correo","Correo en uso"));
-		}
-		
-		if(result.hasErrors()) {return "register";}
-		
-		try {
-			
-			var bCryptEncoder = new BCryptPasswordEncoder();
-			Cliente newUser = new Cliente();
-			newUser.setCedula(registerDto.getCedula());
-			newUser.setNombre(registerDto.getNombre());
-			newUser.setApellido(registerDto.getApellido());
-			newUser.setEdad(registerDto.getEdad());
-			newUser.setCorreo(registerDto.getCorreo());
-			newUser.setClave(bCryptEncoder.encode(registerDto.getClave()));
-			newUser.setTelefono(registerDto.getTelefono());
-			repo.save(newUser);
-			
-			model.addAttribute("registerDto", new RegistroDto());
-			model.addAttribute("success", true);
-			
-			
-			
-		}catch(Exception ex) {result.addError(new FieldError("registerDto", "nombre", ex.getMessage()));}
-		
-		return "register";}
-	
-	
+    @Autowired
+    ClientesRepository repo;
+
+    @GetMapping("/register")
+    public String register(Model model) {
+
+        model.addAttribute("registerDto", new RegistroDto());
+        model.addAttribute("success", false);
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(Model model,
+                           @Valid @ModelAttribute("registerDto") RegistroDto registerDto,
+                           BindingResult result) {
+        // Se inicializa en false
+    	if (result.hasErrors()) {
+            return "register";
+        }
+    	
+        if (!registerDto.getClave().equals(registerDto.getConfirmClave())) {
+            result.addError(new FieldError("registerDto", "confirmClave", "Las contraseñas no coinciden"));
+        }
+
+        Cliente appUser = repo.findByCorreo(registerDto.getCorreo());
+        if (appUser != null) {
+            result.addError(new FieldError("registerDto", "correo", "Correo en uso"));
+        }
+
+        if (result.hasErrors()) {
+        	model.addAttribute("success", false);
+            return "register"; // Mantenerse en la página de registro si hay errores
+        }
+
+        try {
+            var bCryptEncoder = new BCryptPasswordEncoder();
+            Cliente newUser = new Cliente();
+            newUser.setCedula(registerDto.getCedula());
+            newUser.setNombre(registerDto.getNombre());
+            newUser.setApellido(registerDto.getApellido());
+            newUser.setEdad(registerDto.getEdad());
+            newUser.setCorreo(registerDto.getCorreo());
+            newUser.setClave(bCryptEncoder.encode(registerDto.getClave()));
+            newUser.setTelefono(registerDto.getTelefono());
+            repo.save(newUser);
+
+            model.addAttribute("registerDto", new RegistroDto());
+            model.addAttribute("success", true);
+        } catch (Exception ex) {
+            result.addError(new FieldError("registerDto", "nombre", "Error inesperado: " + ex.getMessage()));
+        }
+
+        return "register"; // Mantenerse en la página de registro en todos los casos
+    }
 }

@@ -2,10 +2,6 @@ package com.sebastian.aa3ev01.controllers;
 
 
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,11 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.boostmytool.beststore.models.Products;
 import com.sebastian.aa3ev01.models.Cliente;
 import com.sebastian.aa3ev01.models.ClienteDto;
 import com.sebastian.aa3ev01.repositories.ClienteRepo;
-import com.sebastian.aa3ev01.repositories.ClientesRepository;
+
 
 import jakarta.validation.Valid;
 @Controller
