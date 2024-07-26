@@ -43,14 +43,14 @@ public class AccountController {
             result.addError(new FieldError("registerDto", "confirmClave", "Las contraseñas no coinciden"));
         }
 
-        Cliente appUser = repo.findByCorreo(registerDto.getCorreo());
+        Cliente appUser = repo.findByCedula(registerDto.getCedula());
         if (appUser != null) {
-            result.addError(new FieldError("registerDto", "correo", "Correo en uso"));
+            result.addError(new FieldError("registerDto", "cedula", "ya tienes cuenta inicia sesion"));
         }
 
         if (result.hasErrors()) {
         	model.addAttribute("success", false);
-            return "register"; // Mantenerse en la página de registro si hay errores
+            return "register"; 
         }
 
         try {

@@ -32,6 +32,10 @@ public String showClientList(Model model) {
 
 	}
 	
+	   @GetMapping("/login")
+	    public String login() {
+	        return "login"; // Nombre de la plantilla Thymeleaf
+	    }
 
 	
 

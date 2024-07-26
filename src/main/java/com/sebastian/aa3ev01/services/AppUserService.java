@@ -19,13 +19,14 @@ public class AppUserService implements UserDetailsService {
 	private ClientesRepository repo;
 	
 	@Override
-	public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException{ 
+	public UserDetails loadUserByUsername(String cedula) throws UsernameNotFoundException{ 
+		int cedulaInt = Integer.parseInt(cedula);
 		
-		Cliente  appUser = repo.findByCorreo(correo);
+		Cliente  appUser = repo.findByCedula(cedulaInt);
 		
 		if(appUser != null) {
 			
-			var springUser = User.withUsername(appUser.getCorreo())
+			var springUser = User.withUsername(String.valueOf(cedulaInt))
 					.password(appUser.getClave())
 				
 					.build();
