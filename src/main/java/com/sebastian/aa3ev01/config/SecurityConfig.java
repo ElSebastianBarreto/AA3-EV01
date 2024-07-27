@@ -26,6 +26,14 @@ public class SecurityConfig {
 				.requestMatchers("/logout").permitAll()
 				.anyRequest().authenticated()
 				)
+		
+		.formLogin(form -> form
+                .loginPage("/login") 
+                .defaultSuccessUrl("/", true) 
+                .failureUrl("/login?error=true") 
+                .permitAll()
+            )
+		
 		.formLogin(form -> form
 				.defaultSuccessUrl("/", true))
 		.logout(config -> config.logoutSuccessUrl("/"))

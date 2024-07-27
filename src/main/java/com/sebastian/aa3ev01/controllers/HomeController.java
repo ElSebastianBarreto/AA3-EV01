@@ -23,14 +23,7 @@ public String showClientList(Model model) {
 		return "index";
 	}
 
-	
-	@GetMapping("/contact")
-	public String contact() {
-		
-		
-		return "contact";
 
-	}
 	
 	   @GetMapping("/login")
 	    public String login() {
